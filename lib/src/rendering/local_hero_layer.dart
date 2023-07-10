@@ -19,19 +19,20 @@ class RenderLocalHeroLeaderLayer extends RenderProxyBox {
 
   LocalHeroController get controller => _controller;
   late LocalHeroController _controller;
+
   set controller(LocalHeroController value) {
     if (_controller != value) {
       _controller.removeStatusListener(_onAnimationStatusChanged);
       _controller = value;
       _controller.addStatusListener(_onAnimationStatusChanged);
-      markNeedsPaint();
+      if (!(child?.debugDisposed ?? false)) markNeedsPaint();
     }
   }
 
   void _onAnimationStatusChanged(AnimationStatus status) {
     if (status == AnimationStatus.completed ||
         status == AnimationStatus.dismissed) {
-      markNeedsPaint();
+      if (!(child?.debugDisposed ?? false)) markNeedsPaint();
     }
   }
 
@@ -96,12 +97,13 @@ class RenderLocalHeroFollowerLayer extends RenderProxyBox {
 
   LocalHeroController get controller => _controller;
   late LocalHeroController _controller;
+
   set controller(LocalHeroController value) {
     if (_controller != value) {
       _controller.removeListener(markNeedsLayout);
       _controller = value;
       _controller.addListener(markNeedsLayout);
-      markNeedsPaint();
+      if (!(child?.debugDisposed ?? false)) markNeedsPaint();
     }
   }
 
